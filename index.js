@@ -247,7 +247,7 @@ function createTaskCards(taskName, taskStatus) {
 
       // Check if the edited task name already exists in tasks
       if (tasks.some((task) => task.name === editedTaskName)) {
-        alert("Task name already exists. Please choose a different name.");
+        alert("Task name already exists.");
         return;
       }
 
