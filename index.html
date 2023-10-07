@@ -5,6 +5,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Your ToDo App</title>
+
+    <link rel="stylesheet" href="index.css" />
+    <script defer src="index.js"></script>
+    <script
+      src="https://kit.fontawesome.com/c2ac5cb392.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
-  <body></body>
+  <body>
+    <div class="big-container">
+      <nav class="navbar">
+        <div class="funky-logo" href="#" style="margin: auto">
+          Your ToDo App
+        </div>
+      </nav>
+
+      <div>
+        <div style="text-align: center; max-width: 100%; margin-top: 2rem">
+          <div style="display: flex; justify-content: center">
+            <input type="text" id="textInput" placeholder="Find your task" />
+            <div class="input-group-append">
+              <i class="fas fa-search search-icon" id="searchIcon"></i>
+            </div>
+          </div>
+          <button id="newTask" class="new-task">New task</button>
+        </div>
+
+        <div class="task-container">
+          <!-- ------- task card goes here ------ -->
+
+          <!-- <div class="task-wrapper">
+            <div class="task-card">
+              <div class="button-row">
+                <button class="delete-task-button">
+                  Delete <i class="fa-solid fa-trash"></i>
+                </button>
+                <button class="edit-task-button">
+                  Edit <i class="fa-solid fa-pen"></i>
+                </button>
+              </div>
+              <div class="task-body-name">Fix PC</div>
+
+              <button class="custom-button not-started">Not Started</button>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <!-- modal -->
+
+      <div class="editing-modal" id="editingModal">
+        <div class="editing-modal-box" id="editingModalBox">
+          <div class="editing-modal-header">
+            <h2 style="color: white">Editing your task</h2>
+            <button class="editing-close">&times;</button>
+          </div>
+          <div class="editing-modal-content">
+            <h2>Edit your task</h2>
+            <input
+              type="text"
+              placeholder="Edit your task name"
+              id="taskEditField"
+            />
+            <button id="taskEditButton">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="myModal">
+        <div class="modal-box">
+          <div class="modal-header">
+            <h2>Create new task</h2>
+            <button class="close">&times;</button>
+          </div>
+          <div class="modal-content">
+            <h2>Add your task</h2>
+            <input
+              type="text"
+              placeholder="Name your task"
+              id="taskCreateField"
+            />
+            <button id="taskCreateButton">Create task</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
