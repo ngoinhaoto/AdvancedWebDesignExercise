@@ -112,7 +112,10 @@ function createNewTask(taskName, status) {
         .value.trim();
 
       // Check if the edited task name already exists in tasks
-      if (tasks.some((task) => task.name === editedTaskName)) {
+      if (editedTaskName === "") {
+        alert("Task name can't be empty");
+        return; 
+      } else if (tasks.some((task) => task.name === editedTaskName)) {
         alert("Task name already exists. Please choose a different name.");
         return;
       }
@@ -246,10 +249,15 @@ function createTaskCards(taskName, taskStatus) {
         .value.trim();
 
       // Check if the edited task name already exists in tasks
-      if (tasks.some((task) => task.name === editedTaskName)) {
+      if (editedTaskName === "") {
+        alert("Task name can't be empty");
+        return;
+
+      } else if (tasks.some((task) => task.name === editedTaskName)) {
         alert("Task name already exists.");
         return;
       }
+      
 
       // Update the task name in the tasks array and on the UI
       currentTask.name = editedTaskName;
