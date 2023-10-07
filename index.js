@@ -327,3 +327,29 @@ createButton.onclick = function () {
     }
   }
 };
+
+// adding searching
+let searchInput = document.getElementById("textInput");
+let searchIcon = document.getElementById("searchIcon");
+
+searchIcon.addEventListener("click", function () {
+  searchTasks();
+});
+
+searchInput.addEventListener("input", function () {
+  searchTasks();
+});
+
+function searchTasks() {
+  let searchText = searchInput.value.toLowerCase().trim();
+
+  let filteredTasks = tasks.filter((task) =>
+    task.name.toLowerCase().includes(searchText)
+  );
+
+  taskContainer.innerHTML = "";
+
+  filteredTasks.forEach((task) => {
+    createTaskCards(task.name, task.status);
+  });
+}
