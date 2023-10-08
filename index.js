@@ -110,20 +110,20 @@ function createNewTask(taskName, status) {
 
       let taskNewName = taskEditField.value.trim();
 
-      if (
-        tasks.some(
-          (task) =>
-            task.name === taskNewName && taskNewName !== originalTaskName
-        ) ||
-        taskNewName === originalTaskName
-      ) {
-        alert("No duplicate name allowed.");
-        return;
-      }
-
       console.log(taskNewName);
 
       if (taskIndex !== -1) {
+        if (
+          tasks.some(
+            (task) =>
+              task.name === taskNewName && taskNewName !== originalTaskName
+          ) ||
+          taskNewName === originalTaskName
+        ) {
+          alert("No duplicate name allowed.");
+          return;
+        }
+
         tasks[taskIndex].name = taskNewName;
         taskBody.innerText = taskNewName;
         console.log("old task " + originalTaskName);
@@ -254,20 +254,20 @@ function createTaskCards(taskName, taskStatus) {
 
       let taskNewName = taskEditField.value.trim();
 
-      if (
-        tasks.some(
-          (task) =>
-            task.name === taskNewName && taskNewName !== originalTaskName
-        ) ||
-        taskNewName === originalTaskName
-      ) {
-        alert("No duplicate name allowed.");
-        return;
-      }
-
       console.log(taskNewName);
 
       if (taskIndex !== -1) {
+        if (
+          tasks.some(
+            (task) =>
+              task.name === taskNewName && taskNewName !== originalTaskName
+          ) ||
+          taskNewName === originalTaskName
+        ) {
+          alert("No duplicate name allowed.");
+          return;
+        }
+
         tasks[taskIndex].name = taskNewName;
         taskBody.innerText = taskNewName;
         console.log("old task " + originalTaskName);
