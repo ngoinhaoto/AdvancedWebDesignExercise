@@ -99,7 +99,7 @@ function createNewTask(taskName, status) {
     editModal.style.visibility = "visible";
 
     let taskEditField = document.getElementById("taskEditField");
-    let originalTaskName = taskBody.innerText.trim(); // Store the original task name
+    let originalTaskName = taskBody.innerText.trim();
 
     taskEditField.value = originalTaskName;
 
@@ -242,7 +242,7 @@ function createTaskCards(taskName, taskStatus) {
     editModal.style.visibility = "visible";
 
     let taskEditField = document.getElementById("taskEditField");
-    let originalTaskName = taskBody.innerText.trim(); // Store the original task name
+    let originalTaskName = taskBody.innerText.trim();
 
     taskEditField.value = originalTaskName;
 
