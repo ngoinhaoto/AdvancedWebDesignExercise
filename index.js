@@ -315,14 +315,17 @@ searchInput.addEventListener("input", function () {
 function searchTasks() {
   let searchText = searchInput.value.toLowerCase().trim();
 
-  let filteredTasks = tasks.filter((task) =>
-    task.name.toLowerCase().includes(searchText)
-  );
+  let taskWrappers = document.querySelectorAll('.task-wrapper');
 
-  taskContainer.innerHTML = "";
+  taskWrappers.forEach((taskWrapper) => {
+    let taskNameElement = taskWrapper.querySelector('.task-body-name');
+    let taskName = taskNameElement.textContent.toLowerCase();
 
-  filteredTasks.forEach((task) => {
-    createTaskCards(task.name, task.status);
+    if (taskName.includes(searchText)) {
+      taskWrapper.style.display = 'block'; 
+    } else {
+      taskWrapper.style.display = 'none'; 
+    }
   });
 }
 
