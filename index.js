@@ -97,43 +97,17 @@ function createNewTask(taskName, status) {
     // when click the edit button, open the modal
     editModal.classList.add("active");
     editModal.style.visibility = "visible";
-
     let taskEditField = document.getElementById("taskEditField");
-    let originalTaskName = taskBody.innerText.trim();
 
-    taskEditField.value = originalTaskName;
+    // fill the popup field with the taskbody text
+    taskEditField.value = taskBody.innerText;
 
     let taskEditButton = document.getElementById("taskEditButton");
 
     taskEditButton.addEventListener("click", function () {
-      let taskIndex = tasks.findIndex((task) => task.name === originalTaskName);
-
       let taskNewName = taskEditField.value.trim();
-
-      console.log(taskNewName);
-
-      if (taskIndex !== -1) {
-        if (
-          tasks.some(
-            (task) =>
-              task.name === taskNewName && taskNewName !== originalTaskName
-          ) ||
-          taskNewName === originalTaskName
-        ) {
-          alert("No duplicate name allowed.");
-          return;
-        }
-
-        tasks[taskIndex].name = taskNewName;
-        taskBody.innerText = taskNewName;
-        console.log("old task " + originalTaskName);
-        console.log("new task " + taskNewName);
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-        taskName = taskNewName;
-      } else {
-        console.log("Not found task");
-      }
-
+      taskBody.innerText = taskNewName;
+      saveToLocalStorage();
       editModal.classList.remove("active");
       editModal.style.visibility = "hidden";
     });
@@ -146,15 +120,8 @@ function createNewTask(taskName, status) {
   });
 
   deleteButton.addEventListener("click", function () {
-    // Find the index of the task to be deleted
-    let taskIndex = tasks.findIndex((task) => task.name === taskName);
-
-    if (taskIndex !== -1) {
-      // if the task is found, we delete it
-      tasks.splice(taskIndex, 1);
-    }
     taskWrapper.remove();
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    saveToLocalStorage();
   });
 
   // Append elements
@@ -167,7 +134,12 @@ function createNewTask(taskName, status) {
   taskContainer.appendChild(taskWrapper);
 
   // adding to tasks
-  tasks.push({ name: taskName, status: status });
+
+
+  let newTask = { name: taskName, status: status };
+  tasks.push(newTask);
+
+  saveToLocalStorage();
 }
 
 function updateTaskStatus(taskName, newStatus) {
@@ -241,43 +213,17 @@ function createTaskCards(taskName, taskStatus) {
     // when click the edit button, open the modal
     editModal.classList.add("active");
     editModal.style.visibility = "visible";
-
     let taskEditField = document.getElementById("taskEditField");
-    let originalTaskName = taskBody.innerText.trim();
 
-    taskEditField.value = originalTaskName;
+    // fill the popup field with the taskbody text
+    taskEditField.value = taskBody.innerText;
 
     let taskEditButton = document.getElementById("taskEditButton");
 
     taskEditButton.addEventListener("click", function () {
-      let taskIndex = tasks.findIndex((task) => task.name === originalTaskName);
-
       let taskNewName = taskEditField.value.trim();
-
-      console.log(taskNewName);
-
-      if (taskIndex !== -1) {
-        if (
-          tasks.some(
-            (task) =>
-              task.name === taskNewName && taskNewName !== originalTaskName
-          ) ||
-          taskNewName === originalTaskName
-        ) {
-          alert("No duplicate name allowed.");
-          return;
-        }
-
-        tasks[taskIndex].name = taskNewName;
-        taskBody.innerText = taskNewName;
-        console.log("old task " + originalTaskName);
-        console.log("new task " + taskNewName);
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-        taskName = taskNewName;
-      } else {
-        console.log("Not found task");
-      }
-
+      taskBody.innerText = taskNewName;
+      saveToLocalStorage();
       editModal.classList.remove("active");
       editModal.style.visibility = "hidden";
     });
@@ -290,15 +236,8 @@ function createTaskCards(taskName, taskStatus) {
   });
 
   deleteButton.addEventListener("click", function () {
-    // Find the index of the task to be deleted
-    let taskIndex = tasks.findIndex((task) => task.name === taskName);
-
-    if (taskIndex !== -1) {
-      // if the task is found, we delete it
-      tasks.splice(taskIndex, 1);
-    }
     taskWrapper.remove();
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    saveToLocalStorage();
   });
 
   // Append elements
@@ -311,39 +250,52 @@ function createTaskCards(taskName, taskStatus) {
   taskContainer.appendChild(taskWrapper);
 }
 
-function loadTasks() {
-  // Clear the taskContainer before loading tasks
-  taskContainer.innerHTML = "";
+// ... (your existing code)
 
-  let uniqueTasks = {};
-  tasks.forEach((task) => {
-    if (!uniqueTasks[task.name]) {
-      createTaskCards(task.name, task.status);
-      uniqueTasks[task.name] = true; // use unique tasks to prevent duplicate tasks
+function saveToLocalStorage() {
+  const taskItems = Array.from(document.querySelectorAll('.task-wrapper'));
+  const tasks = [];
+
+  taskItems.forEach((task) => {
+    let taskName = task.querySelector('.task-body-name').textContent;
+    let taskStatus = task.querySelector('.custom-button').innerText;
+    let taskStatusClass = "";
+
+    if (taskStatus === "Finished") {
+      taskStatusClass = "finished";
+    } else if (taskStatus === "Not Started") {
+      taskStatusClass = "not-started";
+    } else if (taskStatus === "In Progress") {
+      taskStatusClass = "in-progress";
     }
+
+    tasks.push({ name: taskName, status: taskStatusClass });
+  });
+
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function loadTasks() {
+  const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+  savedTasks.forEach((task) => {
+    createTaskCards(task.name, task.status);
   });
 }
 
 loadTasks();
 
-// ----- handle the creating task ----
 createButton.onclick = function () {
   let taskName = taskInput.value.trim();
 
-  // Check if the taskName is not empty and there are no tasks with the same name
-  if (taskName !== "" && !tasks.some((task) => task.name === taskName)) {
-    createNewTask(taskName, "not-started");
-    taskInput.value = "";
-    modal.classList.remove("active");
-    modal.style.visibility = "hidden";
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  } else {
-    if (taskName === "") {
-      alert("Task name cannot be empty.");
-    } else {
-      alert("Task with the same name already exists.");
-    }
-  }
+  createNewTask(taskName, "not-started");
+
+  taskInput.value = "";
+  modal.classList.remove("active");
+  modal.style.visibility = "hidden";
+
+  saveToLocalStorage();
+
 };
 
 // adding searching
