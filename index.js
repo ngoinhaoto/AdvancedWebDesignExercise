@@ -114,7 +114,8 @@ function createNewTask(taskName, status) {
         tasks.some(
           (task) =>
             task.name === taskNewName && taskNewName !== originalTaskName
-        )
+        ) ||
+        taskNewName === originalTaskName
       ) {
         alert("No duplicate name allowed.");
         return;
@@ -257,7 +258,8 @@ function createTaskCards(taskName, taskStatus) {
         tasks.some(
           (task) =>
             task.name === taskNewName && taskNewName !== originalTaskName
-        )
+        ) ||
+        taskNewName === originalTaskName
       ) {
         alert("No duplicate name allowed.");
         return;
