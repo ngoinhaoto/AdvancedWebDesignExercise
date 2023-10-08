@@ -14,7 +14,7 @@ Here are what the app can do:
 - Edit tasks
 
 However, I do have one question about using some variables in Javascript. 
-The app is intended to not allowing duplicates but I struggled with a lot of those. 
+I want the app to not allow duplicates but I struggled with a lot of those. 
 Because of that I used a variable called originalTaskName to make sure the new task don’t overlap with the previous one.
 But the thing is, when testing, I intentionally made some duplicates and it does alert error, which is good, but when i edit the next task, 
 the next task’s name isn’t changed, instead it’s the old task that got changed. I used console.log(tasks) to check the errors 
