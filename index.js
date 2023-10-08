@@ -249,6 +249,9 @@ function createTaskCards(taskName, taskStatus) {
   taskCard.appendChild(statusButton);
   taskWrapper.appendChild(taskCard);
   taskContainer.appendChild(taskWrapper);
+
+
+  // saveToLocalStorage(); // no need to save again.
 }
 
 function saveToLocalStorage() {
