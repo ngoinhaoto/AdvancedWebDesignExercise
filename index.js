@@ -78,57 +78,61 @@ function createNewTask(taskName, status) {
       statusButton.textContent = "In Progress";
       statusButton.classList.remove("not-started");
       statusButton.classList.add("in-progress");
-      //   console.log("In progress");
+
       updateTaskStatus(taskName, "in-progress");
     } else if (statusButton.classList.contains("in-progress")) {
       statusButton.textContent = "Finished";
       statusButton.classList.remove("in-progress");
       statusButton.classList.add("finished");
       updateTaskStatus(taskName, "finished");
-      //   console.log("Finished");
     } else {
       statusButton.textContent = "Not Started";
       statusButton.classList.remove("finished");
       statusButton.classList.add("not-started");
       updateTaskStatus(taskName, "not-started");
-      //   console.log("Not started");
     }
   });
 
   editButton.addEventListener("click", function () {
-    document.getElementById("taskEditField").value = taskName;
-
+    // when click the edit button, open the modal
     editModal.classList.add("active");
     editModal.style.visibility = "visible";
 
-    // find the current task inside the tasks array
-    let currentTask = tasks.find((task) => task.name === taskName);
+    let taskEditField = document.getElementById("taskEditField");
+    let originalTaskName = taskBody.innerText.trim(); // Store the original task name
+
+    taskEditField.value = originalTaskName;
 
     let taskEditButton = document.getElementById("taskEditButton");
 
     taskEditButton.addEventListener("click", function () {
-      let editedTaskName = document
-        .getElementById("taskEditField")
-        .value.trim();
+      let taskIndex = tasks.findIndex((task) => task.name === originalTaskName);
 
-      // Check if the edited task name already exists in tasks
-      if (editedTaskName === "") {
-        alert("Task name can't be empty");
-        return; 
-      } else if (tasks.some((task) => task.name === editedTaskName)) {
-        alert("Task name already exists. Please choose a different name.");
+      let taskNewName = taskEditField.value.trim();
+
+      if (
+        tasks.some(
+          (task) =>
+            task.name === taskNewName && taskNewName !== originalTaskName
+        )
+      ) {
+        alert("No duplicate name allowed.");
         return;
       }
 
-      // Update the task name in the tasks array and on the UI
-      currentTask.name = editedTaskName;
-      taskBody.innerText = editedTaskName;
+      console.log(taskNewName);
 
-      taskName = editedTaskName;
-      // set local storage
-      localStorage.setItem("tasks", JSON.stringify(tasks));
+      if (taskIndex !== -1) {
+        tasks[taskIndex].name = taskNewName;
+        taskBody.innerText = taskNewName;
+        console.log("old task " + originalTaskName);
+        console.log("new task " + taskNewName);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        taskName = taskNewName;
+      } else {
+        console.log("Not found task");
+      }
 
-      // Hide the editing modal after saving changes
       editModal.classList.remove("active");
       editModal.style.visibility = "hidden";
     });
@@ -233,41 +237,45 @@ function createTaskCards(taskName, taskStatus) {
   });
 
   editButton.addEventListener("click", function () {
-    document.getElementById("taskEditField").value = taskName;
-
+    // when click the edit button, open the modal
     editModal.classList.add("active");
     editModal.style.visibility = "visible";
 
-    // find the current task inside the tasks array
-    let currentTask = tasks.find((task) => task.name === taskName);
+    let taskEditField = document.getElementById("taskEditField");
+    let originalTaskName = taskBody.innerText.trim(); // Store the original task name
+
+    taskEditField.value = originalTaskName;
 
     let taskEditButton = document.getElementById("taskEditButton");
 
     taskEditButton.addEventListener("click", function () {
-      let editedTaskName = document
-        .getElementById("taskEditField")
-        .value.trim();
+      let taskIndex = tasks.findIndex((task) => task.name === originalTaskName);
 
-      // Check if the edited task name already exists in tasks
-      if (editedTaskName === "") {
-        alert("Task name can't be empty");
-        return;
+      let taskNewName = taskEditField.value.trim();
 
-      } else if (tasks.some((task) => task.name === editedTaskName)) {
-        alert("Task name already exists.");
+      if (
+        tasks.some(
+          (task) =>
+            task.name === taskNewName && taskNewName !== originalTaskName
+        )
+      ) {
+        alert("No duplicate name allowed.");
         return;
       }
-      
 
-      // Update the task name in the tasks array and on the UI
-      currentTask.name = editedTaskName;
-      taskBody.innerText = editedTaskName;
+      console.log(taskNewName);
 
-      taskName = editedTaskName;
-      // set local storage
-      localStorage.setItem("tasks", JSON.stringify(tasks));
+      if (taskIndex !== -1) {
+        tasks[taskIndex].name = taskNewName;
+        taskBody.innerText = taskNewName;
+        console.log("old task " + originalTaskName);
+        console.log("new task " + taskNewName);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        taskName = taskNewName;
+      } else {
+        console.log("Not found task");
+      }
 
-      // Hide the editing modal after saving changes
       editModal.classList.remove("active");
       editModal.style.visibility = "hidden";
     });
