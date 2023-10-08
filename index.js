@@ -250,8 +250,6 @@ function createTaskCards(taskName, taskStatus) {
   taskContainer.appendChild(taskWrapper);
 }
 
-// ... (your existing code)
-
 function saveToLocalStorage() {
   const taskItems = Array.from(document.querySelectorAll('.task-wrapper'));
   const tasks = [];
@@ -322,4 +320,6 @@ function searchTasks() {
   filteredTasks.forEach((task) => {
     createTaskCards(task.name, task.status);
   });
+
 }
+
