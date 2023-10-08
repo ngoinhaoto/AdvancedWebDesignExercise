@@ -149,6 +149,7 @@ function updateTaskStatus(taskName, newStatus) {
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   });
+  saveToLocalStorage();
 }
 
 function createTaskCards(taskName, taskStatus) {
@@ -320,6 +321,5 @@ function searchTasks() {
   filteredTasks.forEach((task) => {
     createTaskCards(task.name, task.status);
   });
-
 }
 
