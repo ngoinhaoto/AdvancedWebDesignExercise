@@ -13,12 +13,4 @@ Here are what the app can do:
 - Delete tasks
 - Edit tasks
 
-However, I do have one question about using some variables in Javascript. 
-I want the app to not allow duplicates but I struggled with a lot of those. 
-Because of that I used a variable called originalTaskName to make sure the new task don’t overlap with the previous one.
-But the thing is, when testing, I intentionally made some duplicates and it does alert error, which is good, but when i edit the next task, 
-the next task’s name isn’t changed, instead it’s the old task that got changed. I used console.log(tasks) to check the errors 
-and it turns out that javascript sends like tons of requests, resulting in occasionally failing to edit that specific task. 
-So I need your help with this,. I am not good with vanilla Javascript but i’m trying. 
-
 Github link: https://github.com/ngoinhaoto/AdvancedWebDesignExercise/tree/eo2
