@@ -49,7 +49,6 @@ function createTaskCards(taskID, taskName, taskStatus) {
   let taskWrapper = document.createElement("div");
   taskWrapper.classList.add("task-wrapper");
 
-  taskWrapper.setAttribute("data-task-id", taskID); // store id
   let taskCard = document.createElement("div");
   taskCard.classList.add("task-card");
 
@@ -153,29 +152,6 @@ function createTaskCards(taskID, taskName, taskStatus) {
   // saveToLocalStorage(); // no need to save again.
 }
 
-// function saveToLocalStorage() {
-//   const taskItems = Array.from(document.querySelectorAll(".task-wrapper"));
-//   const tasks = [];
-
-//   taskItems.forEach((task) => {
-//     let taskName = task.querySelector(".task-body-name").textContent;
-//     let taskStatus = task.querySelector(".custom-button").innerText;
-//     let taskStatusClass = "";
-
-//     if (taskStatus === "Finished") {
-//       taskStatusClass = "finished";
-//     } else if (taskStatus === "Not Started") {
-//       taskStatusClass = "not-started";
-//     } else if (taskStatus === "In Progress") {
-//       taskStatusClass = "in-progress";
-//     }
-
-//     tasks.push({ name: taskName, status: taskStatusClass });
-//   });
-
-//   localStorage.setItem("tasks", JSON.stringify(tasks));
-// }
-
 // adding searching
 let searchInput = document.getElementById("textInput");
 let searchIcon = document.getElementById("searchIcon");
@@ -265,7 +241,7 @@ async function saveNewTaskToServer(taskName, status) {
 
 async function updateTaskNameOnServer(taskId, taskName) {
   try {
-    let response = await fetch(`${serverURL}/${taskId}`, {
+    let response = await fetch(`${serverURL}/name/${taskId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -281,6 +257,7 @@ async function updateTaskNameOnServer(taskId, taskName) {
           task.name = taskName;
         }
       });
+
       renderTasks();
     } else {
       console.error("Failed to update task name on the server.");
@@ -289,9 +266,10 @@ async function updateTaskNameOnServer(taskId, taskName) {
     console.error("Error updating task name:", error);
   }
 }
+
 async function updateTaskStatusOnServer(taskId, newStatus) {
   try {
-    let response = await fetch(`${serverURL}/${taskId}`, {
+    let response = await fetch(`${serverURL}/status/${taskId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

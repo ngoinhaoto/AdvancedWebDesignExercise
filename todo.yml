@@ -1,0 +1,139 @@
+openapi: 3.0.0
+info:
+  title: todoapp
+  version: 1.0.0
+servers:
+  - url: https://47e40cbd-ae3c-4e95-a418-5febec12a299.mock.pstmn.io
+paths:
+  /tasks/:
+    get:
+      summary: Get To Do List
+      responses:
+        "200":
+          description: Get task
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+              example:
+                - id: 1
+                  name: "do chore"
+                  status: "not-started"
+                - id: 2
+                  name: "make pc"
+                  status: "in-progress"
+    post:
+      summary: Add new task
+      # parameters:
+      #   - name: Content-Type
+      #     in: header
+      #     description: 'application/json'
+      #     schema:
+      #       type: string **không cần ghi cái header parameter ở đây **
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "random task"
+                status:
+                  type: string
+                  example: "not-started"
+      responses:
+        "201":
+          description: Task Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Reference:
+                    type: string
+                    example: "hco3h239-4y239787489320-r823"
+                  name:
+                    type: string
+                    example: "random task"
+                  status:
+                    type: string
+                    example: "not-started"
+
+  /tasks/{id}:
+    delete:
+      summary: Delete Task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        "204":
+          description: Delete task succeed
+
+  /tasks/name/{id}:
+    patch:
+      summary: Edit task Name
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "something task"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "something task"
+
+  /tasks/status/{id}:
+    patch:
+      summary: Edit task status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: "in-progress"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "in-progress"
