@@ -3,9 +3,11 @@ let modal = document.getElementById("myModal");
 let btn = document.getElementById("newTask");
 let closeBtn = document.getElementsByClassName("close")[0];
 
-let editModal = document.getElementById("editingModal");
-let editingCloseBtn = document.getElementsByClassName("editingClose")[0];
+// let editModal = document.getElementById("editingModal");
+// let editingCloseBtn = document.getElementsByClassName("editingClose")[0];
 
+let currentEditName = "";
+let currentEditID = "";
 // When the user clicks the button, open the modal
 btn.onclick = function () {
   modal.classList.add("active");
@@ -24,10 +26,10 @@ window.onclick = function (event) {
     modal.classList.remove("active");
     modal.style.visibility = "hidden";
   }
-  if (event.target === editModal) {
-    editModal.classList.remove("active");
-    editModal.style.visibility = "hidden";
-  }
+  // if (event.target === editModal) {
+  //   editModal.classList.remove("active");
+  //   editModal.style.visibility = "hidden";
+  // }
 };
 
 // ----- handle the creating task ----
@@ -104,31 +106,80 @@ function createTaskCards(taskID, taskName, taskStatus) {
   });
 
   editButton.addEventListener("click", function () {
-    // when click the edit button, open the modal
-    editModal.classList.add("active");
-    editModal.style.visibility = "visible";
-    let taskEditField = document.getElementById("taskEditField");
+    // Create elements for the editing modal content
+    let editingModal = document.createElement("div");
+    editingModal.classList.add("editing-modal");
+    editingModal.id = "editingModal";
 
-    // fill the popup field with the taskbody text
+    let editingModalBox = document.createElement("div");
+    editingModalBox.classList.add("editing-modal-box");
+    editingModalBox.id = "editingModalBox";
+
+    let editingModalHeader = document.createElement("div");
+    editingModalHeader.classList.add("editing-modal-header");
+
+    let modalTitle = document.createElement("h2");
+    modalTitle.style.color = "white";
+    modalTitle.textContent = "Editing your task";
+
+    let closeButton = document.createElement("button");
+    closeButton.classList.add("editing-close");
+    closeButton.innerHTML = "&times;";
+
+    editingModalHeader.appendChild(modalTitle);
+    editingModalHeader.appendChild(closeButton);
+
+    let editingModalContent = document.createElement("div");
+    editingModalContent.classList.add("editing-modal-content");
+
+    let editTaskLabel = document.createElement("h2");
+    editTaskLabel.textContent = "Edit your task";
+
+    let taskEditField = document.createElement("input");
+    taskEditField.type = "text";
+    taskEditField.placeholder = "Edit your task name";
+    taskEditField.id = "taskEditField";
+
+    let saveChangesButton = document.createElement("button");
+    saveChangesButton.id = "taskEditButton";
+    saveChangesButton.textContent = "Save Changes";
+
+    editingModalContent.appendChild(editTaskLabel);
+    editingModalContent.appendChild(taskEditField);
+    editingModalContent.appendChild(saveChangesButton);
+
+    editingModalBox.appendChild(editingModalHeader);
+    editingModalBox.appendChild(editingModalContent);
+
+    editingModal.appendChild(editingModalBox);
+
+    // Get the big-container element and append the editing modal
+    let bigContainer = document.querySelector(".big-container");
+    bigContainer.appendChild(editingModal);
+
+    editingModal.style.visibility = "visible";
+    editingModal.classList.add("active");
+
     taskEditField.value = taskBody.innerText;
 
-    let taskEditButton = document.getElementById("taskEditButton");
+    saveChangesButton.addEventListener("click", function () {
+      let taskNewName = taskEditField.value;
 
-    taskEditButton.addEventListener("click", function () {
-      let taskNewName = taskEditField.value.trim();
       taskBody.innerText = taskNewName;
 
-      console.log("id of this task is ", taskID);
-
       updateTaskNameOnServer(taskID, taskNewName);
-      editModal.classList.remove("active");
-      editModal.style.visibility = "hidden";
+
+      taskName = taskNewName;
+
+      editingModal.classList.remove("active");
+      editingModal.style.visibility = "hidden";
+
+      editingModal.remove();
     });
 
-    let closeEditModel = document.getElementsByClassName("editing-close")[0];
-    closeEditModel.addEventListener("click", function () {
-      editModal.classList.remove("active");
-      editModal.style.visibility = "hidden";
+    // Add close functionality to the close button
+    closeButton.addEventListener("click", function () {
+      editingModal.remove(); // Remove the modal when the close button is clicked
     });
   });
 
@@ -182,7 +233,7 @@ function searchTasks() {
 }
 
 let serverURL =
-  "https://47e40cbd-ae3c-4e95-a418-5febec12a299.mock.pstmn.io/tasks";
+  "https://4f74729f-451e-4a98-843e-686bfd957549.mock.pstmn.io/tasks";
 
 let tasks = [];
 
@@ -258,7 +309,7 @@ async function updateTaskNameOnServer(taskId, taskName) {
         }
       });
 
-      renderTasks();
+      // renderTasks();
     } else {
       console.error("Failed to update task name on the server.");
     }
