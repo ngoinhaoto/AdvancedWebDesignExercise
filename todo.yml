@@ -52,7 +52,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  Reference:
+                  id:
                     type: string
                     example: "hco3h239-4y239787489320-r823"
                   name:
