@@ -3,7 +3,7 @@ info:
   title: todoapp
   version: 1.0.0
 servers:
-  - url: https://47e40cbd-ae3c-4e95-a418-5febec12a299.mock.pstmn.io
+  - url: https://4f74729f-451e-4a98-843e-686bfd957549.mock.pstmn.io
 paths:
   /tasks/:
     get:
