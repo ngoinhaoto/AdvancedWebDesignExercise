@@ -13,3 +13,5 @@ I think its because
    local storage data
 5. Better security, storing data on a server will always be better for users than on their
    own devices.
+6. Server side processing: like some complex operations should be handled on server side
+   for security and performance reasons
