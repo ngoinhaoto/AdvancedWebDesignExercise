@@ -3,20 +3,23 @@ import ProductCategoryRow from "./ProductCategoryRow";
 import ProductRow from "./ProductRow";
 
 function ProductTable(props) {
-  const PRODUCTS = [
-    { category: "Fruits", price: "$1", stocked: true, name: "Apple" },
-    { category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit" },
-    { category: "Fruits", price: "$2", stocked: false, name: "Passionfruit" },
-    { category: "Vegetables", price: "$2", stocked: true, name: "Spinach" },
-    { category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
-    { category: "Vegetables", price: "$1", stocked: true, name: "Peas" },
-  ];
+  const { products, searchQuery } = props;
 
-  // Filter products by category
-  const fruits = PRODUCTS.filter((product) => product.category === "Fruits");
-  const vegetables = PRODUCTS.filter(
-    (product) => product.category === "Vegetables"
+  // Filter products based on category and search query
+  const filteredProducts = products.filter(
+    (product) =>
+      product.category.toLowerCase() === searchQuery.toLowerCase() ||
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Group products by category
+  const productsByCategory = {};
+  filteredProducts.forEach((product) => {
+    if (!productsByCategory[product.category]) {
+      productsByCategory[product.category] = [];
+    }
+    productsByCategory[product.category].push(product);
+  });
 
   return (
     <table>
@@ -27,14 +30,14 @@ function ProductTable(props) {
         </tr>
       </thead>
       <tbody>
-        <ProductCategoryRow category="Fruits" />
-        {fruits.map((product, index) => (
-          <ProductRow key={index} product={product} />
-        ))}{" "}
-        <ProductCategoryRow category="Vegetables" />
-        {vegetables.map((product, index) => (
-          <ProductRow key={index} product={product} />
-        ))}{" "}
+        {Object.keys(productsByCategory).map((category, index) => (
+          <React.Fragment key={index}>
+            <ProductCategoryRow category={category} />
+            {productsByCategory[category].map((product, index) => (
+              <ProductRow key={index} product={product} />
+            ))}
+          </React.Fragment>
+        ))}
       </tbody>
     </table>
   );
