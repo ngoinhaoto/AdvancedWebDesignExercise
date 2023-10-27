@@ -1,29 +1,29 @@
 import React from "react";
 
 function SearchBar(props) {
-  function handleInputChange(event) {
-    props.onSearchInputChange(event.target.value);
-  }
+  const filterText = props.filterText;
+  const inStockOnly = props.inStockOnly;
+  const onFilterTextChange = props.onFilterTextChange;
+  const onInStockOnlyChange = props.onInStockOnlyChange;
 
   return (
-    <div className="searchRow">
+    <form>
       <input
         type="text"
-        className="searchInput"
-        placeholder="Search..."
-        onChange={handleInputChange}
+        placeholder="Search...."
+        value={filterText}
+        onChange={(e) => onFilterTextChange(e.target.value)}
       />
-      <br />
       <label>
+        <br></br>
         <input
           type="checkbox"
-          className="searchInput"
-          placeholder="Search..."
-          onChange={props.onStockInputChange}
-        />
+          checked={inStockOnly}
+          onChange={(e) => onInStockOnlyChange(e.target.checked)}
+        />{" "}
         Only show products in stock
       </label>
-    </div>
+    </form>
   );
 }
 

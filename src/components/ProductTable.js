@@ -3,22 +3,36 @@ import ProductCategoryRow from "./ProductCategoryRow";
 import ProductRow from "./ProductRow";
 
 function ProductTable(props) {
-  const { products, searchQuery } = props;
+  const rows = [];
+  let lastCategory = null;
 
-  // Filter products based on category and search query
-  const filteredProducts = products.filter(
-    (product) =>
-      product.category.toLowerCase() === searchQuery.toLowerCase() ||
-      product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  let products = props.products;
+  let filterText = props.filterText;
+  let inStockOnly = props.inStockOnly;
 
-  // Group products by category
-  const productsByCategory = {};
-  filteredProducts.forEach((product) => {
-    if (!productsByCategory[product.category]) {
-      productsByCategory[product.category] = [];
+  products.forEach((product) => {
+    // now we work with the search and instock stuffs
+
+    if (product.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
+      return;
     }
-    productsByCategory[product.category].push(product);
+    if (inStockOnly && !product.stocked) {
+      return;
+    }
+
+    // if cant find product, return
+    if (product.category !== lastCategory) {
+      // if the category is new, create new product category for them
+      rows.push(
+        <ProductCategoryRow
+          category={product.category}
+          key={product.category}
+        />
+      );
+    }
+    // if not then no need for new product category, just put the product row
+    rows.push(<ProductRow product={product} key={product.name} />);
+    lastCategory = product.category;
   });
 
   return (
@@ -29,16 +43,7 @@ function ProductTable(props) {
           <th>Price</th>
         </tr>
       </thead>
-      <tbody>
-        {Object.keys(productsByCategory).map((category, index) => (
-          <React.Fragment key={index}>
-            <ProductCategoryRow category={category} />
-            {productsByCategory[category].map((product, index) => (
-              <ProductRow key={index} product={product} />
-            ))}
-          </React.Fragment>
-        ))}
-      </tbody>
+      <tbody>{rows}</tbody>
     </table>
   );
 }

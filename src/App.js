@@ -1,8 +1,7 @@
 import "./App.css";
 import React from "react";
 
-import SearchBar from "./components/SearchBar";
-import ProductTable from "./components/ProductTable";
+import FilterableProductTable from "./components/FilterableProductTable";
 function App() {
   const PRODUCTS = [
     { category: "Fruits", price: "$1", stocked: true, name: "Apple" },
@@ -12,31 +11,11 @@ function App() {
     { category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
     { category: "Vegetables", price: "$1", stocked: true, name: "Peas" },
   ];
-
-  const [searchQuery, setSearchQuery] = React.useState("");
-
-  function handleSearchInputChange(query) {
-    setSearchQuery(query);
-  }
-
-  return (
-    <div className="App">
-      <header>
-        <h1>Product Management Application</h1>
-
-        <div className="FilterableProductContainer">
-          <div id="searchBarContainer">
-            <SearchBar onSearchInputChange={handleSearchInputChange} />{" "}
-          </div>
-
-          <ProductTable
-            products={PRODUCTS}
-            searchQuery={searchQuery}
-          ></ProductTable>
-        </div>
-      </header>
-    </div>
-  );
+  // updating the app.js to using only filterableproducttable to simplify the search method,
+  // and its more neat and easier to maintain the app this way
+  // ----> the state would be inside the filterableproducttable
+  // to find state, it should be best to put them in the common parent, in this case its filterableproducttable
+  return <FilterableProductTable products={PRODUCTS} />;
 }
 
 export default App;
