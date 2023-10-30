@@ -1,21 +1,44 @@
 import "./App.css";
+import React, { useState, useEffect } from "react";
+import GetAccordion from "./api/GetAccordion";
 import AccordionContainer from "./components/AccordionContainer";
 
 function App() {
-  const items = [
+  // const items = [
+  //   {
+  //     title: "Section 1",
+  //     content: "This is the content of section 1",
+  //   },
+  //   {
+  //     title: "Section 2",
+  //     content: "This is the content of section 2",
+  //   },
+  //   {
+  //     title: "Section 3",
+  //     content: "This is the content of section 3",
+  //   },
+  // ];
+
+  const [items, setItems] = useState([
     {
-      title: "Section 1",
-      content: "This is the content of section 1",
+      title: "Soemhting",
+      content: "dhsajkldhsaj",
     },
-    {
-      title: "Section 2",
-      content: "This is the content of section 2",
-    },
-    {
-      title: "Section 3",
-      content: "This is the content of section 3",
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    async function fetchData() {
+      let result;
+      result = await GetAccordion();
+
+      // return result;
+      setItems(result);
+    }
+
+    // let something =  fetchData();
+    fetchData();
+  }, []); // Empty dependency
+
   return (
     <div className="App">
       <h1>Accordion App</h1>
