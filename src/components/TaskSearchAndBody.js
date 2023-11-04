@@ -13,6 +13,18 @@ export default function TaskSearchAndBody() {
 
   const [newTaskName, setNewTaskName] = useState("");
 
+  const deleteTask = (taskID) => {
+    const updatedTasks = tasks.filter((task) => task.id !== taskID);
+    setTasks(updatedTasks);
+  };
+
+  const handleEditTask = (editedTaskID, editedTaskName) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === editedTaskID ? { ...task, taskName: editedTaskName } : task
+    );
+    setTasks(updatedTasks);
+  };
+
   const initialTasks = [
     { id: 1, taskStatus: "in-progress", taskName: "do ur mom" },
     { id: 2, taskStatus: "finished", taskName: "get pc" },
@@ -46,6 +58,7 @@ export default function TaskSearchAndBody() {
         setEditPopUpVisible={setEditPopUpVisible}
         searchText={searchText}
         tasks={tasks}
+        deleteTask={deleteTask}
       />
 
       {isCreatePopUpVisible && (
@@ -58,7 +71,11 @@ export default function TaskSearchAndBody() {
       )}
 
       {isEditPopUpVisible && (
-        <EditPopUp onClose={() => setEditPopUpVisible(false)} />
+        <EditPopUp
+          onClose={() => setEditPopUpVisible(false)}
+          isVisible={isEditPopUpVisible}
+          onSave={handleEditTask}
+        />
       )}
     </div>
   );

@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-export default function Task({ taskName, taskStatus, setEditPopUpVisible }) {
+export default function Task({
+  taskName,
+  taskStatus,
+  setEditPopUpVisible,
+  taskID,
+  deleteTask,
+  setSelectedTask,
+}) {
   const [currentStatus, setCurrentStatus] = useState(taskStatus);
 
   const handleStatusClick = () => {
@@ -16,17 +23,23 @@ export default function Task({ taskName, taskStatus, setEditPopUpVisible }) {
     setCurrentStatus(newStatus);
     // updateTaskStatus(taskName, newStatus); // remember to use API in this function
   };
+
+  const handleDeleteClick = () => {
+    deleteTask(taskID); // Call the deleteTask function with the task's id
+  };
+
+  const handleEditClick = () => {
+    setEditPopUpVisible(true, taskName, taskID);
+  };
+
   return (
     <div className="task-wrapper">
       <div className="task-card">
         <div className="button-row">
-          <button className="delete-task-button">
+          <button className="delete-task-button" onClick={handleDeleteClick}>
             Delete <i className="fa-solid fa-trash"></i>
-          </button>
-          <button
-            className="edit-task-button"
-            onClick={() => setEditPopUpVisible(true)}
-          >
+          </button>{" "}
+          <button className="edit-task-button" onClick={handleEditClick}>
             Edit <i className="fa-solid fa-pen"></i>
           </button>{" "}
         </div>
