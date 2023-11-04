@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-export default function CreatePopUp({ onClose }) {
+export default function CreatePopUp({
+  onClose,
+  newTaskName,
+  setNewTaskName,
+  onCreateTask,
+}) {
   const [isModalVisible, setModalVisible] = useState(true);
 
   const hideModal = () => {
@@ -22,9 +27,13 @@ export default function CreatePopUp({ onClose }) {
           <input
             type="text"
             placeholder="Name your task"
+            value={newTaskName}
+            onChange={(e) => setNewTaskName(e.target.value)}
             id="taskCreateField"
           />
-          <button id="taskCreateButton">Create task</button>
+          <button id="taskCreateButton" onClick={onCreateTask}>
+            Create task
+          </button>
         </div>
       </div>
     </div>

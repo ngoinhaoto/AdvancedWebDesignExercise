@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 export default function EditPopUp({ onClose }) {
-  const [isModalVisible, setModalVisible] = useState(true);
+  const [isModalVisible] = useState(true);
 
   const hideModal = () => {
     // setModalVisible(false);

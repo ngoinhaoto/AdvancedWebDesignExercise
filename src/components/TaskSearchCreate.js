@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 
-export default function TaskSearchCreate({ setCreatePopUpVisible }) {
+export default function TaskSearchCreate({
+  setCreatePopUpVisible,
+  setSearchText,
+}) {
   const handleNewTaskClick = () => {
     setCreatePopUpVisible(true);
   };
 
   return (
     <div className="taskSearchCreateWrapper">
-      <SearchBar />
+      <SearchBar setSearchText={setSearchText} />
 
       <button id="newTask" className="new-task" onClick={handleNewTaskClick}>
         New task
