@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-
+import EditPopUp from "./EditPopUp";
 export default function Task({
   taskName,
   taskStatus,
-  setEditPopUpVisible,
   taskID,
   deleteTask,
-  setSelectedTask,
+  onSave,
 }) {
   const [currentStatus, setCurrentStatus] = useState(taskStatus);
+
+  const [isEditPopUpVisible, setEditPopUpVisibility] = useState(false);
 
   const handleStatusClick = () => {
     let newStatus;
@@ -29,7 +30,7 @@ export default function Task({
   };
 
   const handleEditClick = () => {
-    setEditPopUpVisible(true, taskName, taskID);
+    setEditPopUpVisibility(true);
   };
 
   return (
@@ -54,6 +55,19 @@ export default function Task({
             ? "Finished"
             : "Not Started"}
         </button>{" "}
+        {isEditPopUpVisible && (
+          <EditPopUp
+            onClose={() => setEditPopUpVisibility(false)}
+            initialTaskName={taskName}
+            taskID={taskID}
+            onSave={(editedTaskID, editedTaskName) => {
+              // Handle save logic here, you can call your parent component's function here
+              // Example: handleEditTask(editedTaskID, editedTaskName);
+              onSave(editedTaskID, editedTaskName);
+              setEditPopUpVisibility(false);
+            }}
+          />
+        )}
       </div>
     </div>
   );

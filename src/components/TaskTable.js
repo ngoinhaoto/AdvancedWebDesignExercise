@@ -2,10 +2,10 @@ import React from "react";
 import Task from "./Task";
 
 export default function TaskTable({
-  setEditPopUpVisible,
   tasks,
   searchText,
   deleteTask,
+  onSaveTask,
 }) {
   const filteredTasks = tasks.filter((task) =>
     task.taskName.toLowerCase().includes(searchText.toLowerCase())
@@ -19,8 +19,10 @@ export default function TaskTable({
           taskID={task.id}
           taskStatus={task.taskStatus}
           taskName={task.taskName}
-          setEditPopUpVisible={setEditPopUpVisible}
           deleteTask={deleteTask}
+          onSave={(editedTaskID, editedTaskName) => {
+            onSaveTask(editedTaskID, editedTaskName);
+          }}
         />
       ))}
     </div>
