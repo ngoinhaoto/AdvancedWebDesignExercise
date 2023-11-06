@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { updateTaskNameOnServer } from "../apis/handlingAPIs";
 
 export default function EditPopUp({
   onClose,
@@ -13,9 +14,17 @@ export default function EditPopUp({
     setTaskName(e.target.value);
   };
 
-  const handleSaveClick = () => {
-    onSave(taskID, taskName);
-    onClose();
+  const handleSaveClick = async () => {
+    try {
+      // Call the API to update the task name on the server
+      await updateTaskNameOnServer(taskID, taskName);
+      // Call the parent component's onSave function to update the task name locally
+      onSave(taskID, taskName);
+      // Close the modal
+      onClose();
+    } catch (error) {
+      console.error("Error updating task name:", error);
+    }
   };
 
   const hideModal = () => {

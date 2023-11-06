@@ -3,7 +3,9 @@ import TaskSearchCreate from "./TaskSearchCreate";
 import TaskTable from "./TaskTable";
 import CreatePopUp from "./CreatePopUp";
 
-import { fetchTasksFromServer } from "../apis/handlingAPIs";
+import { fetchTasksFromServer, createTaskOnServer } from "../apis/handlingAPIs";
+
+import { v4 as uuidv4 } from "uuid";
 
 export default function TaskSearchAndBody() {
   const [isCreatePopUpVisible, setCreatePopUpVisible] = useState(false);
@@ -34,19 +36,24 @@ export default function TaskSearchAndBody() {
   //add setTasks, when create task using api
   const [tasks, setTasks] = useState([]);
 
-  const handleCreateTask = () => {
-    // Validate newTaskName if necessary
-    const newTask = {
-      id: tasks.length + 1, // can replace this with fancy unique id
-      name: newTaskName,
-      status: "not-started",
-    };
+  const handleCreateTask = async () => {
+    try {
+      const newTask = {
+        id: uuidv4(),
+        name: newTaskName,
+        status: "not-started",
+      };
 
-    setTasks([...tasks, newTask]); // Add the new task to the tasks state
-    setNewTaskName(""); // Clear the input field
-    setCreatePopUpVisible(false);
+      const createdTask = await createTaskOnServer(newTask);
+      setTasks([...tasks, createdTask]); // Add the new task to the tasks state
+      setNewTaskName(""); // Clear the input field
+      setCreatePopUpVisible(false);
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
   };
 
+  //getting tasks from the postman server
   useEffect(() => {
     async function getData() {
       // debugger;

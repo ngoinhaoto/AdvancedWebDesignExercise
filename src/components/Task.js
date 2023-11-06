@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import EditPopUp from "./EditPopUp";
+
+import {
+  deleteTaskOnServer,
+  updateTaskStatusOnServer,
+} from "../apis/handlingAPIs";
+
 export default function Task({
   taskName,
   taskStatus,
@@ -11,7 +17,7 @@ export default function Task({
 
   const [isEditPopUpVisible, setEditPopUpVisibility] = useState(false);
 
-  const handleStatusClick = () => {
+  const handleStatusClick = async () => {
     let newStatus;
     if (currentStatus === "not-started") {
       newStatus = "in-progress";
@@ -21,12 +27,21 @@ export default function Task({
       newStatus = "not-started";
     }
 
-    setCurrentStatus(newStatus);
-    // updateTaskStatus(taskName, newStatus); // remember to use API in this function
+    try {
+      await updateTaskStatusOnServer(taskID, newStatus);
+      setCurrentStatus(newStatus); // Update the task's status locally
+    } catch (error) {
+      console.error("Error updating task status:", error);
+    }
   };
 
-  const handleDeleteClick = () => {
-    deleteTask(taskID); // Call the deleteTask function with the task's id
+  const handleDeleteClick = async () => {
+    try {
+      await deleteTaskOnServer(taskID);
+      deleteTask(taskID); //  deleteTask function with the task's id
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
   };
 
   const handleEditClick = () => {
