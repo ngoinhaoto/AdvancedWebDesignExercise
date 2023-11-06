@@ -34,6 +34,10 @@ export async function createTaskOnServer(newTask) {
     }
 
     const data = await response.json();
+
+    console.log(
+      `Task with id ${data.id} and name ${data.name} has been created`
+    );
     return data;
   } catch (error) {
     console.error("Error creating task:", error);
