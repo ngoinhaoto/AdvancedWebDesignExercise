@@ -10,7 +10,7 @@ export default function EditPopUp({
   const [taskName, setTaskName] = useState(initialTaskName);
 
   const handleInputChange = (e) => {
-    console.log(e.target.value); // Check the input value
+    console.log(e.target.value); // Check the input value and log it into the console to check, cái này em kĩ thôi
     setTaskName(e.target.value);
   };
 

@@ -50,14 +50,11 @@ export default function TaskSearchAndBody() {
   //getting tasks from the postman server
   useEffect(() => {
     async function getData() {
-      // debugger;
-
       let result;
       result = await fetchTasksFromServer();
 
       setTasks(result);
     }
-    // debugger;
 
     getData();
   }, []);
@@ -83,16 +80,6 @@ export default function TaskSearchAndBody() {
           onCreateTask={handleCreateTask}
         />
       )}
-
-      {/* {isEditPopUpVisible && (
-        <EditPopUp
-          onClose={() => setEditPopUpVisible(false)}
-          isVisible={isEditPopUpVisible}
-          // initialTaskName={initialTaskName}
-          // taskID={taskID}
-          onSave={handleEditTask}
-        />
-      )} */}
     </div>
   );
 }
