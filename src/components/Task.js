@@ -76,8 +76,6 @@ export default function Task({
             initialTaskName={taskName}
             taskID={taskID}
             onSave={(editedTaskID, editedTaskName) => {
-              // Handle save logic here, you can call your parent component's function here
-              // Example: handleEditTask(editedTaskID, editedTaskName);
               onSave(editedTaskID, editedTaskName);
               setEditPopUpVisibility(false);
             }}

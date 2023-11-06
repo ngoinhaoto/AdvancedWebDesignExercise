@@ -19,12 +19,6 @@ export default function TaskSearchAndBody() {
     setTasks(updatedTasks);
   };
 
-  // const initialTasks = [
-  //   { id: 1, taskStatus: "in-progress", taskName: "do ur mom" },
-  //   { id: 2, taskStatus: "finished", taskName: "get pc" },
-  //   { id: 3, taskStatus: "not-started", taskName: "do chore" },
-  // ];
-
   const handleSaveTask = (editedTaskID, editedTaskName) => {
     // Update tasks state with the edited task name
     const updatedTasks = tasks.map((task) =>

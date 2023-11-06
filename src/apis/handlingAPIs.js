@@ -1,8 +1,9 @@
+const serverURL =
+  "https://4f74729f-451e-4a98-843e-686bfd957549.mock.pstmn.io/tasks";
+
 export async function fetchTasksFromServer() {
   try {
-    const response = await fetch(
-      "https://4f74729f-451e-4a98-843e-686bfd957549.mock.pstmn.io/tasks"
-    );
+    const response = await fetch(serverURL);
     if (!response.ok) {
       throw new Error("Network response isnt okay");
     }
@@ -18,16 +19,13 @@ export async function fetchTasksFromServer() {
 
 export async function createTaskOnServer(newTask) {
   try {
-    const response = await fetch(
-      "https://4f74729f-451e-4a98-843e-686bfd957549.mock.pstmn.io/tasks",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newTask),
-      }
-    );
+    const response = await fetch(serverURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTask),
+    });
 
     if (!response.ok) {
       throw new Error("Network response isnt okay");
@@ -46,8 +44,6 @@ export async function createTaskOnServer(newTask) {
 }
 
 export async function deleteTaskOnServer(taskId) {
-  const serverURL =
-    "https://4f74729f-451e-4a98-843e-686bfd957549.mock.pstmn.io/tasks";
   try {
     const response = await fetch(`${serverURL}/${taskId}`, {
       method: "DELETE",
@@ -64,9 +60,6 @@ export async function deleteTaskOnServer(taskId) {
 }
 
 export async function updateTaskStatusOnServer(taskId, newStatus) {
-  const serverURL =
-    "https://4f74729f-451e-4a98-843e-686bfd957549.mock.pstmn.io/tasks";
-
   try {
     let response = await fetch(`${serverURL}/status/${taskId}`, {
       method: "PATCH",
@@ -88,9 +81,6 @@ export async function updateTaskStatusOnServer(taskId, newStatus) {
 }
 
 export async function updateTaskNameOnServer(taskId, taskName) {
-  const serverURL =
-    "https://4f74729f-451e-4a98-843e-686bfd957549.mock.pstmn.io/tasks";
-
   try {
     let response = await fetch(`${serverURL}/name/${taskId}`, {
       method: "PATCH",
