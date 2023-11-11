@@ -1,2 +1,2 @@
 # AdvancedWebDesignExercise
-This is my submission for the Advanced Web Design class in VNUK
+Idea submission for advanced web design final project
