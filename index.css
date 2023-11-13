@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,100;1,500&display=swap");
+
+body {
+  font-size: 1.5rem;
+  font-family: "Poppins";
+  background-color: rgb(255, 241, 241);
+  text-transform: uppercase;
+  margin: 0px;
+}
+
+.navbar {
+  grid-area: navbar;
+}
+
+.sidebar {
+  grid-area: sidebar;
+}
+
+.main {
+  grid-area: main;
+}
+
+.content1 {
+  grid-area: content1;
+}
+
+.content2 {
+  grid-area: content2;
+}
+
+.content3 {
+  grid-area: content3;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    "navbar navbar navbar navbar"
+    "sidebar main main main"
+    "sidebar content1 content2 content3"
+    "sidebar footer footer footer";
+
+  gap: 5px;
+
+  height: 100vh;
+}
+
+.grid-container > div {
+  padding-top: 1rem;
+
+  text-align: center;
+  font-size: 30px;
+
+  font-weight: 600;
+  color: black;
+}
+
+@media screen and (max-width: 768px) {
+  .grid-container {
+    grid-template-areas: "navbar" "sidebar" "main" "content1" "content2" "content3" "footer";
+  }
+}
+
+.navbar {
+  background: linear-gradient(to bottom right, #b3f866, #47fff3);
+}
+
+.sidebar {
+  background: linear-gradient(to bottom right, #3dff98, #478dff);
+}
+
+.main {
+  background: linear-gradient(to bottom right, #84bef4, #478dff);
+}
+
+.content1 {
+  background: linear-gradient(to bottom right, #9c98f2, #37feab);
+}
+
+.content2 {
+  background: linear-gradient(to bottom right, #ff8afd, #ff6e6e);
+}
+
+.content3 {
+  background: linear-gradient(to bottom right, #f894c3, #ff6e6e);
+}
+
+.footer {
+  background: linear-gradient(to bottom right, #d2f894, #6eff86);
+}
