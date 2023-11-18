@@ -8,6 +8,57 @@ import TaskSearchAndBody from "../components/TaskSearchAndBody";
 
 import React, { useState, useEffect } from "react";
 
+function isTokenExpired(token) {
+  if (!token) {
+    return true;
+  }
+
+  const tokenPayload = JSON.parse(atob(token.split(".")[1]));
+  const expirationTime = tokenPayload.exp * 1000;
+
+  return Date.now() >= expirationTime;
+}
+function isRefreshTokenExpired(refreshToken) {
+  if (!refreshToken) {
+    return true;
+  }
+
+  const refreshTokenPayload = JSON.parse(atob(refreshToken.split(".")[1]));
+  const expirationTime = refreshTokenPayload.exp * 1000;
+
+  return Date.now() >= expirationTime;
+}
+
+async function refreshTokens() {
+  try {
+    let token = localStorage.getItem("token");
+    let refresh_token = localStorage.getItem("refresh_token");
+
+    const response = await fetch(
+      "https://awd-2023.azurewebsites.net/Auth/refresh_token",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          refresh_token: `${refresh_token}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      const result = await response.json();
+
+      let { token } = result;
+      localStorage.setItem("token", token);
+
+      return token;
+    }
+  } catch (error) {
+    console.error("Token refresh fail: " + error);
+    throw error;
+  }
+}
+
 function AppHome() {
   const [userData, setUserData] = useState(null);
 
@@ -16,15 +67,18 @@ function AppHome() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        let token = localStorage.getItem("token");
+        let refresh_token = localStorage.getItem("refresh_token");
 
-        console.log("token: " + token);
+        if (isTokenExpired(token)) {
+          // if token is expired refresh it
+          if (isRefreshTokenExpired(refresh_token)) {
+            navigate("/login");
+          }
 
-        if (!token) {
-          //no token -> redirect
-          navigate("/login");
-          return;
+          token = await refreshTokens();
         }
+        console.log("token: " + token);
 
         const response = await fetch(
           "https://awd-2023.azurewebsites.net/Auth/me",
