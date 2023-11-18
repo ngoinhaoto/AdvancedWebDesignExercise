@@ -1,17 +1,18 @@
-import "./App.css";
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import "./css/main.css";
-
-import NavBar from "./components/NavBar";
-import TaskSearchAndBody from "./components/TaskSearchAndBody";
+import LoginPage from "./pages/LoginPage";
+import AppHome from "./pages/AppHome";
 
 function App() {
   return (
-    <div className="App">
-      <NavBar />
-
-      <TaskSearchAndBody />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/app" element={<AppHome />} />
+        <Route path="/" element={<Navigate to="/login" />} />
+      </Routes>{" "}
+    </BrowserRouter>
   );
 }
 
