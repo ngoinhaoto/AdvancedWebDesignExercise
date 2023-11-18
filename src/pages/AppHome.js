@@ -74,6 +74,7 @@ function AppHome() {
           // if token is expired refresh it
           if (isRefreshTokenExpired(refresh_token)) {
             navigate("/login");
+            return;
           }
 
           token = await refreshTokens();
